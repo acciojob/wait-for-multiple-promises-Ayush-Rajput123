@@ -1,21 +1,24 @@
 const output = document.getElementById("output");
 
 const loadingRow = document.createElement("tr");
+loadingRow.id = "loading";
 loadingRow.innerHTML = `<td colspan="2" class="text-center">Loading...</td>`;
 output.appendChild(loadingRow);
 
 function createPromise(index) {
   return new Promise((resolve) => {
-    const delay = Math.random() * 2 + 1; // 1 to 3 seconds
+    const delay = Math.random() * 2 + 1; 
     const start = performance.now();
 
     setTimeout(() => {
       const end = performance.now();
-      const timeTaken = (end - start) / 1000; // in seconds
+      const timeTaken = (end - start) / 1000; 
       resolve({ name: `Promise ${index}`, timeTaken });
     }, delay * 1000);
   });
 }
+
+const overallStart = performance.now();
 
 const promises = [createPromise(1), createPromise(2), createPromise(3)];
 
@@ -31,7 +34,8 @@ Promise.all(promises).then((results) => {
     output.appendChild(row);
   });
 
-  const totalTime = Math.max(...results.map((r) => r.timeTaken));
+  const overallEnd = performance.now();
+  const totalTime = (overallEnd - overallStart) / 1000;
 
   const totalRow = document.createElement("tr");
   totalRow.innerHTML = `
